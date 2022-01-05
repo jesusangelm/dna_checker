@@ -21,9 +21,14 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
+
 development:
   <<: *default
-  database: dna_mutant_development
+  database: dna_development
+  host: <%= Rails.application.credentials.dig(:development, :pg, :hostname) %>
+  username: <%= Rails.application.credentials.dig(:development, :pg, :username) %>
+  password: <%= Rails.application.credentials.dig(:development, :pg, :password) %>
+  port: <%= Rails.application.credentials.dig(:development, :pg, :port) %>
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -57,7 +62,11 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: dna_mutant_test
+  database: dna_test
+  host: <%= Rails.application.credentials.dig(:development, :pg, :hostname) %>
+  username: <%= Rails.application.credentials.dig(:development, :pg, :username) %>
+  password: <%= Rails.application.credentials.dig(:development, :pg, :password) %>
+  port: <%= Rails.application.credentials.dig(:development, :pg, :port) %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -81,6 +90,4 @@ test:
 #
 production:
   <<: *default
-  database: dna_mutant_production
-  username: dna_mutant
-  password: <%= ENV["DNA_MUTANT_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
