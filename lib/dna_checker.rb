@@ -21,13 +21,8 @@ class DnaChecker
   end
 
   # Genera un nuevo array con las combinaciones de letras verticales en la matriz o array multidimencional
-  # posible sustituto: dna.map {|seq| seq.chars}.transpose.map{|seq| seq.join}
   def self.generate_verticals(dna)
-    verticals = []
-    (0..dna.first.size - 1).each do |i|
-      verticals << dna.map { |row| row[i] }.join
-    end
-    verticals
+    dna.map(&:chars).transpose.map(&:join)
   end
 
   # Genera todas las diagonales posibles
